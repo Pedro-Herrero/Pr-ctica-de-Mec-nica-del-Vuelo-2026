@@ -511,8 +511,16 @@ ylim([n_min - 1.5, n_max + 1.5]);
 
 
 
+
+
+
+
+
+
+
+
 %% ============================================================
-%  BLOQUE EXTRA — COMPARATIVA DE RADIOS (V = constante)
+%  BLOQUE EXTRA 1 — COMPARATIVA DE RADIOS (V = constante)
 %% ============================================================
 % 1. Definición de radios a comparar
 R_list = [350, 450, 600, 800]; % [m] Lista de radios
@@ -558,7 +566,7 @@ xlim([0 180]); xticks(0:30:180);
 
 
 %% ============================================================
-%  BLOQUE EXTRA — VELOCIDAD MÍNIMA REAL (CON DRAG Y T_MAX)
+%  BLOQUE EXTRA 2 — VELOCIDAD MÍNIMA REAL (CON DRAG Y T_MAX)
 % ============================================================
 
 fprintf('=== VELOCIDAD MÍNIMA REAL (CON DRAG) ===\n');
@@ -621,7 +629,7 @@ end
 
 
 %% ============================================================
-%  BLOQUE EXTRA — POTENCIA A VELOCIDAD CONSTANTE (V = 120 m/s)
+%  BLOQUE EXTRA 3 — POTENCIA A VELOCIDAD CONSTANTE (V = 120 m/s)
 % ============================================================
 % HIPÓTESIS: El empuje del motor varía para compensar peso y resistencia.
 % La aceleración tangencial es cero.
