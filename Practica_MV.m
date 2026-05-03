@@ -518,19 +518,18 @@ ylim([n_min - 1.5, n_max + 1.5]);
 
 
 
-
 %% ============================================================
-%  BLOQUE EXTRA 1 — COMPARATIVA DE RADIOS (V = constante)
+%  BLOQUE EXTRA — COMPARATIVA DE RADIOS (V = constante)
 %% ============================================================
 % 1. Definición de radios a comparar
-R_list = [350, 450, 600, 800]; % [m] Lista de radios
+R_list = [350, 450, 600, 800];
 
 % 2. Cálculo matricial (Cada fila es un radio, cada columna un punto de la trayectoria)
 n_matrix  = V^2 ./ (g * R_list') + cos(phi); 
 CL_matrix = (W / (q * S)) .* n_matrix; 
 
-% --- Gráfica Comparativa: Factor de Carga n(phi) ---
-figure('Name','Comparativa n por Radio','Color','w','Position',[200 200 700 400]);
+% Gráfica comparativa de factores de Carga n(phi) ---
+figure('Name','Comparativa n por Radio');
 hold on;
 for i = 1:length(R_list)
     plot(phi_deg, n_matrix(i,:), 'LineWidth', 2, ...
@@ -547,7 +546,7 @@ title(['Efecto del Radio en el Factor de Carga (V = ' num2str(V) ' m/s)']);
 xlim([0 180]); xticks(0:30:180);
 
 % --- Gráfica Comparativa: Coeficiente de Sustentación CL(phi) ---
-figure('Name','Comparativa CL por Radio','Color','w','Position',[250 250 700 400]);
+figure('Name','Comparativa CL por Radio');
 hold on;
 for i = 1:length(R_list)
     plot(phi_deg, CL_matrix(i,:), 'LineWidth', 2, ...
@@ -566,13 +565,17 @@ xlim([0 180]); xticks(0:30:180);
 
 
 %% ============================================================
-%  BLOQUE EXTRA 2 — VELOCIDAD MÍNIMA REAL (CON DRAG Y T_MAX)
+%  BLOQUE EXTRA — VELOCIDAD MÍNIMA REAL (CON DRAG Y T_MAX)
 % ============================================================
 
 fprintf('=== VELOCIDAD MÍNIMA REAL (CON DRAG) ===\n');
 
 % La ecuacion de actuaciones del avión en el eje x_w en este caso es:
 % T-D-W*sin(gamma)=m*a_t
+
+% La velocidad que buscamos es la mínima que nos permita llegar a la cima del 
+% rizo con una velocidad que tenga una aceleración centrípeta mayor o igual a la gravedad, 
+% porque si no el avión se cae y no puede cerrar la circunferencia.
 
 % Rango de búsqueda
 V_test = linspace(50, Vne, 150);
@@ -629,27 +632,27 @@ end
 
 
 %% ============================================================
-%  BLOQUE EXTRA 3 — POTENCIA A VELOCIDAD CONSTANTE (V = 120 m/s)
+%  BLOQUE EXTRA — POTENCIA A VELOCIDAD CONSTANTE (V = 120 m/s)
 % ============================================================
 % HIPÓTESIS: El empuje del motor varía para compensar peso y resistencia.
 % La aceleración tangencial es cero.
 
 % Cálculo de Potencias [kW]
-% Potencia Útil (la que el avión necesita para mantener la trayectoria)
+% Potencia Útil
 P_util_const_kW = (T_req .* V) / 1000; 
 
-% Potencia Disipada (la que se pierde solo por rozamiento/resistencia)
+% Potencia Disipada
 P_disipada_const_kW = (D_req .* V) / 1000;
 
-% --- GRÁFICA DE POTENCIAS (Escenario V Constante) ---
-figure('Name','Potencias a V Constante','Color','w','Position',[150 150 650 400]);
+% Gráfica de potencias a V constante
+figure('Name','Potencias a V Constante');
 hold on;
 
 % Dibujamos las potencias
 plot(phi_deg, P_util_const_kW, 'k-', 'LineWidth', 2.5, 'DisplayName', 'P_{útil} Requerida');
 plot(phi_deg, P_disipada_const_kW, 'b-', 'LineWidth', 2, 'DisplayName', 'P_{disipada} (Drag)');
 
-% Línea de límite del motor (para ver si es físicamente posible)
+% Línea de límite del motor
 P_max_disp_kW = (T_max * V) / 1000;
 yline(P_max_disp_kW, 'r--', 'LineWidth', 1.5, 'DisplayName', 'P_{máx} disponible');
 
@@ -657,5 +660,8 @@ grid on;
 xlabel('Ángulo \phi [°]', 'FontWeight', 'bold');
 ylabel('Potencia [kW]', 'FontWeight', 'bold');
 title('Potencias necesarias para mantener V = 120 m/s', 'FontWeight', 'bold');
+legend('Location', 'best');
+xlim([0 180]);
+
 legend('Location', 'best');
 xlim([0 180]); xticks(0:30:180);
