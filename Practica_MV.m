@@ -573,10 +573,6 @@ fprintf('=== VELOCIDAD MÍNIMA REAL (CON DRAG) ===\n');
 % La ecuacion de actuaciones del avión en el eje x_w en este caso es:
 % T-D-W*sin(gamma)=m*a_t
 
-% La velocidad que buscamos es la mínima que nos permita llegar a la cima del 
-% rizo con una velocidad que tenga una aceleración centrípeta mayor o igual a la gravedad, 
-% porque si no el avión se cae y no puede cerrar la circunferencia.
-
 % Rango de búsqueda
 V_test = linspace(50, Vne, 150);
 V_min_real = NaN;
@@ -663,5 +659,3 @@ title('Potencias necesarias para mantener V = 120 m/s', 'FontWeight', 'bold');
 legend('Location', 'best');
 xlim([0 180]);
 
-legend('Location', 'best');
-xlim([0 180]); xticks(0:30:180);
