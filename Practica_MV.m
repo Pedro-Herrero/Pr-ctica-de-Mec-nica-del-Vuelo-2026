@@ -564,67 +564,6 @@ xlim([0 180]); xticks(0:30:180);
 
 
 
-%% ============================================================
-%  BLOQUE EXTRA — VELOCIDAD MÍNIMA REAL (CON DRAG Y T_MAX)
-% ============================================================
-
-fprintf('=== VELOCIDAD MÍNIMA REAL (CON DRAG) ===\n');
-
-% La ecuacion de actuaciones del avión en el eje x_w en este caso es:
-% T-D-W*sin(gamma)=m*a_t
-
-% Rango de búsqueda
-V_test = linspace(50, Vne, 150);
-V_min_real = NaN;
-
-for V0 = V_test
-    
-    V_inst = V0;   % velocidad instantánea
-    ok = true;
-    
-    for i = 1:N-1
-        
-        % CL requerido instantáneo
-        CL_i = (W / (0.5*rho*V_inst^2*S)) * (V_inst^2/(g*R) + cos(phi(i)));
-        
-        % CD y Drag
-        CD_i = CD0 + k*CL_i^2;
-        D_i  = 0.5*rho*V_inst^2*S*CD_i;
-        
-        % Aceleración tangencial
-        a_t = (T_max - D_i - W*sin(phi(i))) / (W/g);
-        
-        % Integración simple (Euler)
-        dt = t(i+1) - t(i);
-        V_inst = V_inst + a_t*dt;
-        
-        % Condición crítica en la cima
-        if i == N-1
-            if V_inst^2/R < g
-                ok = false;
-            end
-        end
-        
-        % Si se queda sin velocidad → falla
-        if V_inst <= 0
-            ok = false;
-            break;
-        end
-    end
-    
-    if ok
-        V_min_real = V0;
-        break;
-    end
-end
-
-if isnan(V_min_real)
-    fprintf('  [!] No existe velocidad suficiente con este T_max.\n');
-else
-    fprintf('  Velocidad mínima real: %.2f m/s\n', V_min_real);
-end
-
-
 
 
 %% ============================================================
